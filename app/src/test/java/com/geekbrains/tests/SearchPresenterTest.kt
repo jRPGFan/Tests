@@ -108,4 +108,10 @@ class SearchPresenterTest {
         verify(viewContract, times(1))
             .displaySearchResults(searchResults, 101)
     }
+
+    @Test
+    fun onDetach() {
+        presenter.onDetach()
+        assertNull(presenter.viewContract)
+    }
 }
