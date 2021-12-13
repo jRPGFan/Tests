@@ -38,7 +38,7 @@ class SearchPresenterTest {
 
     @Test
     fun handleGitHubError_Test() {
-        presenter.handleGitHubError()
+        presenter.handleGithubError()
         verify(viewContract, times(1)).displayError()
     }
 
@@ -53,7 +53,7 @@ class SearchPresenterTest {
     fun handleGitHubResponse_Failure() {
         val response = mock(Response::class.java) as Response<SearchResponse?>
         `when`(response.isSuccessful).thenReturn(false)
-        presenter.handleGitHubResponse(response)
+        presenter.handleGithubResponse(response)
         verify(viewContract, times(1))
             .displayError("Response is null or unsuccessful")
     }
@@ -62,7 +62,7 @@ class SearchPresenterTest {
     fun handleGitHubResponse_ResponseFailure_ViewContractMethodOrder() {
         val response = mock(Response::class.java) as Response<SearchResponse?>
         `when`(response.isSuccessful).thenReturn(false)
-        presenter.handleGitHubResponse(response)
+        presenter.handleGithubResponse(response)
 
         val inOrder = inOrder(viewContract)
         inOrder.verify(viewContract).displayLoading(false)
@@ -73,7 +73,7 @@ class SearchPresenterTest {
     fun handleGitHubResponse_ResponseIsEmpty() {
         val response = mock(Response::class.java) as Response<SearchResponse?>
         `when`(response.body()).thenReturn(null)
-        presenter.handleGitHubResponse(response)
+        presenter.handleGithubResponse(response)
         assertNull(response.body())
     }
 
@@ -81,7 +81,7 @@ class SearchPresenterTest {
     fun handleGitHubResponse_ResponseIsNotEmpty() {
         val response = mock(Response::class.java) as Response<SearchResponse?>
         `when`(response.body()).thenReturn(mock(SearchResponse::class.java))
-        presenter.handleGitHubResponse(response)
+        presenter.handleGithubResponse(response)
         assertNotNull(response.body())
     }
 
@@ -90,7 +90,7 @@ class SearchPresenterTest {
         val response = mock(Response::class.java) as Response<SearchResponse?>
         `when`(response.isSuccessful).thenReturn(true)
         `when`(response.body()).thenReturn(null)
-        presenter.handleGitHubResponse(response)
+        presenter.handleGithubResponse(response)
         verify(viewContract, times(1))
             .displayError("Search results or total count are null")
     }
@@ -104,7 +104,7 @@ class SearchPresenterTest {
         `when`(response.body()).thenReturn(searchResponse)
         `when`(searchResponse.searchResults).thenReturn(searchResults)
         `when`(searchResponse.totalCount).thenReturn(101)
-        presenter.handleGitHubResponse(response)
+        presenter.handleGithubResponse(response)
         verify(viewContract, times(1))
             .displaySearchResults(searchResults, 101)
     }
