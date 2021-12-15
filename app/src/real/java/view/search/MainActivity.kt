@@ -1,4 +1,4 @@
-package com.geekbrains.tests.view.search
+package view.search
 
 import android.os.Bundle
 import android.view.View
@@ -12,10 +12,14 @@ import com.geekbrains.tests.presenter.search.PresenterSearchContract
 import com.geekbrains.tests.presenter.search.SearchPresenter
 import com.geekbrains.tests.repository.GitHubApi
 import com.geekbrains.tests.repository.GitHubRepository
+import com.geekbrains.tests.presenter.RepositoryContract
 import com.geekbrains.tests.view.details.DetailsActivity
+import com.geekbrains.tests.view.search.SearchResultAdapter
+import com.geekbrains.tests.view.search.ViewSearchContract
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), ViewSearchContract {
@@ -31,6 +35,12 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
     }
 
     private fun setUI() {
+        searchButton.setOnClickListener {
+            val query = searchEditText.text.toString()
+            if (query.isNotBlank()) presenter.searchGitHub(query)
+                else Toast.makeText(this@MainActivity,
+                    getString(R.string.enter_search_word),Toast.LENGTH_SHORT).show()
+        }
         toDetailsActivityButton.setOnClickListener {
             startActivity(DetailsActivity.getIntent(this, totalCount))
         }
@@ -63,7 +73,7 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         })
     }
 
-    private fun createRepository(): GitHubRepository {
+    private fun createRepository(): RepositoryContract {
         return GitHubRepository(createRetrofit().create(GitHubApi::class.java))
     }
 
@@ -78,6 +88,10 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         searchResults: List<SearchResult>,
         totalCount: Int
     ) {
+        with(totalCountTextView) {
+            visibility = View.VISIBLE
+            text = String.format(Locale.getDefault(), getString(R.string.results_count), totalCount)
+        }
         this.totalCount = totalCount
         adapter.updateResults(searchResults)
     }
