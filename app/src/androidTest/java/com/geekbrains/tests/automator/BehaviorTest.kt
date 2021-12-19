@@ -7,6 +7,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.*
+import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_MINUS_1
+import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_PLUS_1
+import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_ZERO
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -44,7 +47,7 @@ class BehaviorTest {
         val changedText = uiDevice.wait(Until.findObject(By
             .res(packageName, "totalCountTextView")), TIMEOUT)
         Assert.assertEquals(changedText.text.toString(), "Number of results: 4")
-        Assert.assertNotEquals(changedText.text.toString(), "Number of results: 0")
+        Assert.assertNotEquals(changedText.text.toString(), TEST_NUMBER_OF_RESULTS_ZERO)
     }
 
     @Test
@@ -53,7 +56,7 @@ class BehaviorTest {
         toDetails.click()
         val changedText = uiDevice.wait(
             Until.findObject(By.res(packageName, "totalCountTextView")), TIMEOUT)
-        Assert.assertEquals(changedText.text, "Number of results: 0")
+        Assert.assertEquals(changedText.text, TEST_NUMBER_OF_RESULTS_ZERO)
         Assert.assertNotEquals(changedText.text, "Number of results: 4")
     }
 
@@ -84,8 +87,8 @@ class BehaviorTest {
             Until.findObject(By.res(packageName, "totalCountTextView")), TIMEOUT)
         val incrementButton = uiDevice.findObject(By.res(packageName, "incrementButton"))
         incrementButton.click()
-        Assert.assertEquals(changedTextDetails.text, "Number of results: 1")
-        Assert.assertNotEquals(changedTextDetails.text, "Number of results: 0")
+        Assert.assertEquals(changedTextDetails.text, TEST_NUMBER_OF_RESULTS_PLUS_1)
+        Assert.assertNotEquals(changedTextDetails.text, TEST_NUMBER_OF_RESULTS_ZERO)
     }
 
     @Test
@@ -96,8 +99,8 @@ class BehaviorTest {
             Until.findObject(By.res(packageName, "totalCountTextView")), TIMEOUT)
         val decrementButton = uiDevice.findObject(By.res(packageName, "decrementButton"))
         decrementButton.click()
-        Assert.assertEquals(changedTextDetails.text, "Number of results: -1")
-        Assert.assertNotEquals(changedTextDetails.text, "Number of results: 0")
+        Assert.assertEquals(changedTextDetails.text, TEST_NUMBER_OF_RESULTS_MINUS_1)
+        Assert.assertNotEquals(changedTextDetails.text, TEST_NUMBER_OF_RESULTS_ZERO)
     }
 
     @Test
