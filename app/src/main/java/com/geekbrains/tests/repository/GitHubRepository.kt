@@ -1,15 +1,19 @@
 package com.geekbrains.tests.repository
 
+import io.reactivex.Observable
 import com.geekbrains.tests.model.SearchResponse
+import com.geekbrains.tests.presenter.RepositoryContract
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-internal class GitHubRepository(private val gitHubApi: GitHubApi) {
+internal class GitHubRepository(private val gitHubApi: GitHubApi) : RepositoryContract {
 
-    fun searchGithub(
+    override fun searchGithub(
         query: String,
-        callback: GitHubRepositoryCallback
+        callback: RepositoryCallback
     ) {
         val call = gitHubApi.searchGithub(query)
         call?.enqueue(object : Callback<SearchResponse?> {
@@ -18,20 +22,24 @@ internal class GitHubRepository(private val gitHubApi: GitHubApi) {
                 call: Call<SearchResponse?>,
                 response: Response<SearchResponse?>
             ) {
-                callback.handleGitHubResponse(response)
+                callback.handleGithubResponse(response)
             }
 
             override fun onFailure(
                 call: Call<SearchResponse?>,
                 t: Throwable
             ) {
-                callback.handleGitHubError()
+                callback.handleGithubError()
             }
         })
     }
 
-    interface GitHubRepositoryCallback {
-        fun handleGitHubResponse(response: Response<SearchResponse?>?)
-        fun handleGitHubError()
+    override fun searchGithub(query: String): Observable<SearchResponse> {
+        return gitHubApi.searchGithubRx(query).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override suspend fun searchGithubAsync(query: String): SearchResponse {
+        return gitHubApi.searchGithubAsync(query).await()
     }
 }
