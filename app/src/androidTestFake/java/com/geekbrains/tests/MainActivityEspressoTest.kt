@@ -6,7 +6,7 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import view.search.MainActivity
+import com.geekbrains.tests.view.search.MainActivity
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

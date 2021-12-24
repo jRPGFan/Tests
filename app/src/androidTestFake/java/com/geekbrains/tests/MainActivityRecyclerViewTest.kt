@@ -16,7 +16,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import view.search.MainActivity
+import com.geekbrains.tests.view.search.MainActivity
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityRecyclerViewTest {

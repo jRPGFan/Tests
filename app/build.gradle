@@ -100,4 +100,16 @@ dependencies {
 
     //RecyclerView
     debugImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+    //LiveDataTest
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+
+    //Coroutines
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
 }
